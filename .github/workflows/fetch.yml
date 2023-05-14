@@ -15,12 +15,13 @@ jobs:
       - name: Fetch
         id: fetch
         run: |
+          d=$(date -u)
           ./ip-blacklist-bjos_cn.sh -n 0 -o raw.txt || exit
           sort raw.txt | uniq -c | sort -nr | awk '{ print $2 "\t" $1 }' >all-count.txt
           awk '{ print $1 }' all-count.txt | sort -o all.txt
           rm -f raw.txt
           if [ -s all-count.txt ] && [ -s all.txt ]; then
-            echo "DATE=$(date -u)" >>"$GITHUB_OUTPUT"
+            echo "DATE=$d" >>"$GITHUB_OUTPUT"
           fi
 
       - name: Update
