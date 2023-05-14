@@ -15,11 +15,7 @@ jobs:
       - name: Fetch
         id: fetch
         run: |
-          ./ip-blacklist-bjos_cn.sh -n 0 -o raw.txt
-          if [ ! -s raw.txt ]; then
-            rm -f raw.txt
-            exit
-          fi
+          ./ip-blacklist-bjos_cn.sh -n 0 -o raw.txt || exit
           sort raw.txt | uniq -c | sort -nr | awk '{ print $2 "\t" $1 }' >all-count.txt
           awk '{ print $1 }' all-count.txt | sort -o all.txt
           rm -f raw.txt
